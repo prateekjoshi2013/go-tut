@@ -13,4 +13,13 @@ it as a test.
 - Test functions don’t return anything
 
 - **t.Parallel()** statement is a standard prelude to tests: it tells Go to run
-this test concurrently with other tests, which saves time 
+this test concurrently with other tests, which saves time
+
+- We can call t.Errorf to cause the test to fail with a message, and if we don’t do
+that, the test will pass by default.
+
+- **t.Errorf** continues executing the test in case of an error 
+
+- **t.Fatalf** throws error and exits test immediately
+
+- Run all tests  using **go test ./...***
