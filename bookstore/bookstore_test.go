@@ -160,7 +160,7 @@ func TestSetCategoryInValid(t *testing.T) {
 		Title:      "For the Love of Go",
 		PriceCents: 4000,
 	}
-	err := b.SetCategory("invalid")
+	err := b.SetCategory(404)
 	if err == nil {
 		t.Fatal("want error for invalid category, got nil")
 	}

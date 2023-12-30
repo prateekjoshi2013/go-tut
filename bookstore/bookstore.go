@@ -6,12 +6,12 @@ import (
 )
 
 const (
-	CategoryAutobiography     = "Autobiography"
-	CategoryLargePrintRomance = "Large Print Romance"
-	CategoryParticlePhysics   = "Particle Physics"
+	CategoryAutobiography = iota
+	CategoryLargePrintRomance
+	CategoryParticlePhysics
 )
 
-var validCategory = map[string]bool{
+var validCategory = map[int]bool{
 	CategoryAutobiography:     true,
 	CategoryLargePrintRomance: true,
 	CategoryParticlePhysics:   true,
@@ -24,7 +24,7 @@ type Book struct {
 	Copies          int
 	PriceCents      int
 	DiscountPercent int
-	category        string
+	category        int
 }
 
 type Catalog map[int]Book
@@ -67,7 +67,7 @@ func (b *Book) SetPriceCents(priceCents int) error {
 	return nil
 }
 
-func (b *Book) SetCategory(category string) error {
+func (b *Book) SetCategory(category int) error {
 	if !validCategory[category] {
 		return errors.New("invalid category")
 	}
