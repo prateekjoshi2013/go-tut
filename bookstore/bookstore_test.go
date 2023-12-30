@@ -11,9 +11,9 @@ import (
 
 func TestBook(t *testing.T) {
 	_ = bookstore.Book{
-		Title:    "Spark Joy",
-		Author:   "Marie Kondo",
-		Copies:   2,
+		Title:  "Spark Joy",
+		Author: "Marie Kondo",
+		Copies: 2,
 	}
 }
 
@@ -148,7 +148,7 @@ func TestSetCategoryValid(t *testing.T) {
 		Title:      "For the Love of Go",
 		PriceCents: 4000,
 	}
-	err := b.SetCategory("Western")
+	err := b.SetCategory(bookstore.CategoryLargePrintRomance)
 	if err != nil {
 		t.Fatal(err)
 	}

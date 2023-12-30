@@ -5,19 +5,16 @@ import (
 	"fmt"
 )
 
-type Category string
+const (
+	CategoryAutobiography     = "Autobiography"
+	CategoryLargePrintRomance = "Large Print Romance"
+	CategoryParticlePhysics   = "Particle Physics"
+)
 
-func (c Category) ValidateCategory() error {
-	switch c {
-	case "Romance", "Western", "Quantum Mechanics":
-		return nil
-	default:
-		return errors.New("not a valid category")
-	}
-}
-
-func (c Category) String() string {
-	return string(c)
+var validCategory = map[string]bool{
+	CategoryAutobiography:     true,
+	CategoryLargePrintRomance: true,
+	CategoryParticlePhysics:   true,
 }
 
 type Book struct {
@@ -27,7 +24,7 @@ type Book struct {
 	Copies          int
 	PriceCents      int
 	DiscountPercent int
-	category        Category
+	category        string
 }
 
 type Catalog map[int]Book
@@ -71,10 +68,9 @@ func (b *Book) SetPriceCents(priceCents int) error {
 }
 
 func (b *Book) SetCategory(category string) error {
-	c := Category(category)
-	if err := c.ValidateCategory(); err != nil {
-		return err
+	if !validCategory[category] {
+		return errors.New("invalid category")
 	}
-	b.category = c
+	b.category = category
 	return nil
 }
