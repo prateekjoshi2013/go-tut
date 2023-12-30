@@ -13,10 +13,11 @@ type Book struct {
 	PriceCents      int
 	DiscountPercent int
 }
+type Catalog map[int]Book
 
-var catalog map[int]Book
+var catalog Catalog
 
-func Buy(b Book) (Book, error) {
+func (b Book) Buy() (Book, error) {
 	if b.Copies == 0 {
 		return Book{}, errors.New("no copies left")
 	}
@@ -24,16 +25,16 @@ func Buy(b Book) (Book, error) {
 	return b, nil
 }
 
-func GetAllBooks(catalog map[int]Book) []Book {
-	books := make([]Book, 0, len(catalog))
-	for _, book := range catalog {
+func (c Catalog) GetAllBooks() []Book {
+	books := make([]Book, 0, len(c))
+	for _, book := range c {
 		books = append(books, book)
 	}
 	return books
 }
 
-func GetBook(catalog map[int]Book, id int) (Book, error) {
-	book, ok := catalog[id]
+func (c Catalog) GetBook(id int) (Book, error) {
+	book, ok := c[id]
 	if !ok {
 		return Book{}, fmt.Errorf("no book with id %d found", id)
 	}
