@@ -5,6 +5,21 @@ import (
 	"fmt"
 )
 
+type Category string
+
+func (c Category) ValidateCategory() error {
+	switch c {
+	case "Romance", "Western", "Quantum Mechanics":
+		return nil
+	default:
+		return errors.New("not a valid category")
+	}
+}
+
+func (c Category) String() string {
+	return string(c)
+}
+
 type Book struct {
 	ID              int
 	Title           string
@@ -12,7 +27,9 @@ type Book struct {
 	Copies          int
 	PriceCents      int
 	DiscountPercent int
+	category        Category
 }
+
 type Catalog map[int]Book
 
 var catalog Catalog
@@ -43,4 +60,21 @@ func (c Catalog) GetBook(id int) (Book, error) {
 
 func (b Book) NetPriceCents() int {
 	return (b.PriceCents * (100 - b.DiscountPercent)) / 100
+}
+
+func (b *Book) SetPriceCents(priceCents int) error {
+	if priceCents < 0 {
+		return errors.New("price cannot be negative")
+	}
+	b.PriceCents = priceCents
+	return nil
+}
+
+func (b *Book) SetCategory(category string) error {
+	c := Category(category)
+	if err := c.ValidateCategory(); err != nil {
+		return err
+	}
+	b.category = c
+	return nil
 }
